@@ -5,7 +5,7 @@
     <data>
         <variable
             name="activity"
-            type="com.example.dahee_prac.activity.MainActivity" />
+            type="com.example.dahee_prac.View.MainActivity" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
