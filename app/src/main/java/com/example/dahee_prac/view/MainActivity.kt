@@ -1,10 +1,9 @@
-package com.example.dahee_prac.View
+package com.example.dahee_prac.view
 
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import com.example.dahee_prac.databinding.MainActivityBinding
-import kotlinx.android.synthetic.main.main_activity.mainbutton
 
 
 class MainActivity : Activity() {

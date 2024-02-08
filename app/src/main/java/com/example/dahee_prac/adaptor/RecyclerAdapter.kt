@@ -1,4 +1,4 @@
-package com.example.dahee_prac.Adaptor
+package com.example.dahee_prac.adaptor
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.dahee_prac.Model.Todo
+import com.example.dahee_prac.model.Todo
 import com.example.dahee_prac.databinding.RecyclerItemBinding
 
 class RecyclerAdapter: ListAdapter<Todo, RecyclerAdapter.MyViewHolder>(diffUtil) {
