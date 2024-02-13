@@ -1,6 +1,5 @@
 package com.example.dahee_prac.view
 
-import android.content.ContentValues.TAG
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.viewModels
@@ -8,14 +7,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
-import com.example.dahee_prac.HanaAPI
+import com.example.dahee_prac.retrofit.HanaAPI
 import com.example.dahee_prac.R
-import com.example.dahee_prac.ResultHanaAPI
-import com.example.dahee_prac.User
+import com.example.dahee_prac.pojo.ResultHanaAPI
 import com.example.dahee_prac.viewModel.MainViewModel
 import com.example.dahee_prac.databinding.SecondActivityBinding
-import okhttp3.ResponseBody
-import org.json.JSONObject
+import com.example.dahee_prac.retrofit.RetrofitInstance
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -33,11 +30,11 @@ class SecondActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val retrofit = Retrofit.Builder().baseUrl("https://dev12-mbp.hanabank.com:18080/")
+        /*val retrofit = Retrofit.Builder().baseUrl("https://dev12-mbp.hanabank.com:18080/")
             .addConverterFactory(GsonConverterFactory.create()).build();
-        val service = retrofit.create(HanaAPI::class.java);
+        val service = retrofit.create(HanaAPI::class.java); */
 
-        service.getHanaData(Accept,UserAgent).enqueue(object : Callback<ResultHanaAPI>{
+        RetrofitInstance.api.getHanaData(Accept,UserAgent).enqueue(object : Callback<ResultHanaAPI>{
             override fun onResponse(call: Call<ResultHanaAPI>, response: Response<ResultHanaAPI>) {
                 if(response.isSuccessful){
                     // 정상적으로 통신이 성고된 경우

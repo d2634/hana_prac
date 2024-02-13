@@ -7,6 +7,7 @@ import com.example.dahee_prac.model.Todo
 
 class MainViewModel: ViewModel() {
     private var _todoList = MutableLiveData<List<Todo>>()
+
     val todoList : LiveData<List<Todo>>
         get() = _todoList
 

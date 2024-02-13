@@ -1,4 +1,4 @@
-package com.example.dahee_prac
+package com.example.dahee_prac.pojo
 
 import com.google.gson.annotations.SerializedName
 

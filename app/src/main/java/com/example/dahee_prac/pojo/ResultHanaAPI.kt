@@ -1,4 +1,4 @@
-package com.example.dahee_prac
+package com.example.dahee_prac.pojo
 
 data class ResultHanaAPI(
     var headerData: HeaderData,

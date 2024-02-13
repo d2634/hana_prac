@@ -1,9 +1,8 @@
-package com.example.dahee_prac
+package com.example.dahee_prac.retrofit
 
+import com.example.dahee_prac.pojo.ResultHanaAPI
 import okhttp3.ResponseBody
-import org.json.JSONObject
 import retrofit2.Call
-import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.POST
