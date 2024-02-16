@@ -2,26 +2,28 @@ package com.example.dahee_prac.view
 
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
-import com.example.dahee_prac.retrofit.HanaAPI
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.get
 import com.example.dahee_prac.R
 import com.example.dahee_prac.pojo.ResultHanaAPI
-import com.example.dahee_prac.viewModel.MainViewModel
+import com.example.dahee_prac.viewModel.RecyclerViewModel
 import com.example.dahee_prac.databinding.SecondActivityBinding
 import com.example.dahee_prac.retrofit.RetrofitInstance
+import com.example.dahee_prac.viewModel.RetrofitViewModel
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 
 class SecondActivity : AppCompatActivity() {
     private lateinit var binding: SecondActivityBinding
-    private val viewModel : MainViewModel by viewModels()
+    private val viewModel : RecyclerViewModel by viewModels()
+    private lateinit var retrofitVM: RetrofitViewModel
     private var liveText: MutableLiveData<String> = MutableLiveData()
     private var count = 0 // button을 누르면 증가 될 숫자
     val Accept = "application/json"
@@ -29,35 +31,6 @@ class SecondActivity : AppCompatActivity() {
     var responsetext : String = "?????"
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        /*val retrofit = Retrofit.Builder().baseUrl("https://dev12-mbp.hanabank.com:18080/")
-            .addConverterFactory(GsonConverterFactory.create()).build();
-        val service = retrofit.create(HanaAPI::class.java); */
-
-        RetrofitInstance.api.getHanaData(Accept,UserAgent).enqueue(object : Callback<ResultHanaAPI>{
-            override fun onResponse(call: Call<ResultHanaAPI>, response: Response<ResultHanaAPI>) {
-                if(response.isSuccessful){
-                    // 정상적으로 통신이 성고된 경우
-                    val responseBodyList = response.body()?.data?.cmsWidget?.data
-                    Log.d("YMC", "onResponse 성공: $responseBodyList");
-
-                    if (responseBodyList != null) { //받아온 content 값을 recyclerview에 띄운다
-                        for (i in responseBodyList)
-                            viewModel.addTodo(i.content)
-                    }
-                    Log.d("responsetext", "onResponse 성공: $responsetext");
-
-                }else{
-                    // 통신이 실패한 경우(응답코드 3xx, 4xx 등)
-                    Log.d("YMC", "onResponse 실패")
-                }
-            }
-
-            override fun onFailure(call: Call<ResultHanaAPI>, t: Throwable) {
-                // 통신 실패 (인터넷 끊킴, 예외 발생 등 시스템적인 이유)
-                Log.d("YMC", "onFailure 에러: " + t.message.toString());
-            }
-        })
 
         //단순한 okhttp3로 호출하는 코드
         /* val url = "https://dev12-mbp.hanabank.com:18080/common/appInfo.do"
@@ -75,6 +48,10 @@ class SecondActivity : AppCompatActivity() {
                 responsetext = responseBodyString
             }
         }) */
+
+        retrofitVM = ViewModelProvider(this).get(RetrofitViewModel::class.java)
+        retrofitVM.callRetrofit()
+        observerRetrofitLivedata()
 
         binding = DataBindingUtil.setContentView(this, R.layout.second_activity)
         binding.viewModel = viewModel
@@ -97,7 +74,20 @@ class SecondActivity : AppCompatActivity() {
             //liveText.value="내 숫자는?: ${count++}"
             liveText.value=responsetext
         }
+    }
 
+    private fun observerRetrofitLivedata() {
+        retrofitVM.observeRetrofitLivedata().observe(this, object : Observer<ResultHanaAPI>{
+            override fun onChanged(value: ResultHanaAPI) {
+                val responseBodyList = value.data?.cmsWidget?.data
+                Log.d("YMC", "onResponse 성공: $responseBodyList");
 
+                if (responseBodyList != null) { //받아온 content 값을 recyclerview에 띄운다
+                    for (i in responseBodyList)
+                        viewModel.addTodo(i.content)
+                }
+            }
+
+        })
     }
 }

@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.dahee_prac.model.Todo
 
-class MainViewModel: ViewModel() {
+class RecyclerViewModel: ViewModel() {
     private var _todoList = MutableLiveData<List<Todo>>()
 
     val todoList : LiveData<List<Todo>>
@@ -20,7 +20,6 @@ class MainViewModel: ViewModel() {
         _todoList.postValue(items)
     }
 
-
     fun addTodo(content: String){
         if(content == ""){
             return
@@ -29,4 +28,6 @@ class MainViewModel: ViewModel() {
         items.add(todo)
         _todoList.postValue(items)
     }
+
+
 }
