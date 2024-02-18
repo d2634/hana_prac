@@ -67,10 +67,11 @@ class SecondActivity : AppCompatActivity() {
 
         liveText.observe(this, Observer {
             // it로 넘어오는 param은 LiveData의 value
+
             binding.subtext.text = it
         })
 
-        binding.numbtn.setOnClickListener{
+        binding.numBtn.setOnClickListener{
             //liveText.value="내 숫자는?: ${count++}"
             liveText.value=responsetext
         }
