@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools">
     <data>
         <variable
-            name="activity"
-            type="com.example.dahee_prac.view.MainActivity" />
+            name="maindata"
+            type="com.example.dahee_prac.model.MainData" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -17,11 +17,13 @@
             android:id="@+id/maintext"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Hello World!"
+            android:text="@{maindata.title}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+
 
         <Button
             android:id="@+id/mainbutton"
@@ -30,6 +32,15 @@
             android:text="Button"
             tools:layout_editor_absoluteX="158dp"
             tools:layout_editor_absoluteY="411dp"
+            tools:ignore="MissingConstraints" />
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:imageurl="@{maindata.img}"
+            tools:layout_editor_absoluteX="136dp"
+            tools:layout_editor_absoluteY="178dp"
             tools:ignore="MissingConstraints" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
