@@ -32,7 +32,7 @@ class SecondActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        //단순한 okhttp3로 호출하는 코드
+        //단순한 okhttp3로 호출하는 코드???
         /* val url = "https://dev12-mbp.hanabank.com:18080/common/appInfo.do"
         val okHttpClient = OkHttpClient();
         val request = Request.Builder().url(url).build()
