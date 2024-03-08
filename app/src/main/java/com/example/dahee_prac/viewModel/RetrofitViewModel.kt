@@ -7,6 +7,12 @@ import androidx.lifecycle.ViewModel
 import com.example.dahee_prac.model.Todo
 import com.example.dahee_prac.pojo.ResultHanaAPI
 import com.example.dahee_prac.retrofit.RetrofitInstance
+import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -42,8 +48,49 @@ class RetrofitViewModel(): ViewModel() {
             }
         })
     }
-
     fun observeRetrofitLivedata(): LiveData<ResultHanaAPI> {
         return retrofitliveData;
     }
+//*********************************************************************
+    //코루틴을 사용해 레트로핏 비동기처리하기
+    val hanaData = RetrofitInstance.gethanaApi()
+    var job: Job? = null
+    val exceptionHandler = CoroutineExceptionHandler { coroutineContext, throwable ->
+        onError("Exception: ${throwable.localizedMessage}")
+    }
+
+    val hanadatas = MutableLiveData<ResultHanaAPI>()
+    val dataLoadError = MutableLiveData<String?>()
+    val loading = MutableLiveData<Boolean>()
+
+    fun refresh() {
+        fetchRetrofit()
+    }
+
+    private fun fetchRetrofit() {
+        loading.value = true
+
+        job = CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
+            val response = hanaData.getCoroutineData(Accept,UserAgent)
+            withContext(Dispatchers.Main) {
+                if (response.isSuccessful) {
+
+                    hanadatas.value = response.body()
+                    dataLoadError.value = ""
+                    loading.value = false
+                } else {
+                    onError("Error : ${response.message()}")
+                }
+            }
+        }
+    }
+    private fun onError(message: String) {
+        dataLoadError.value = message
+        loading.value = false
+    }
+
+    override fun onCleared() {
+        job?.cancel()
+    }
+
 }

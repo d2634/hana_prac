@@ -1,6 +1,6 @@
 package com.example.dahee_prac.model
 
 class MainData (
-    var title : String,
-    var img : Int
+    var item1: item,
+    var item2: item
 )

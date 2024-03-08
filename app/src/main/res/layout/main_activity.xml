@@ -17,7 +17,7 @@
             android:id="@+id/maintext"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{maindata.title}"
+            app:title="@{maindata.item1.title}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
@@ -30,17 +30,37 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Button"
-            tools:layout_editor_absoluteX="158dp"
-            tools:layout_editor_absoluteY="411dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             tools:ignore="MissingConstraints" />
 
         <ImageView
             android:id="@+id/imageView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:imageurl="@{maindata.img}"
+            app:imgurl="@{maindata.item1.img}"
             tools:layout_editor_absoluteX="136dp"
             tools:layout_editor_absoluteY="178dp"
+            tools:ignore="MissingConstraints" />
+
+        <TextView
+            android:id="@+id/maintext2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:title="@{maindata.item2.title}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/mainbutton"
+            tools:ignore="MissingConstraints" />
+
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/maintext2"
+            app:imgurl="@{maindata.item2.img}"
             tools:ignore="MissingConstraints" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

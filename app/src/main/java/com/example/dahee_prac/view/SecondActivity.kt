@@ -32,7 +32,7 @@ class SecondActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        //단순한 okhttp3로 호출하는 코드???
+        //단순한 okhttp3로 호출하는 코드
         /* val url = "https://dev12-mbp.hanabank.com:18080/common/appInfo.do"
         val okHttpClient = OkHttpClient();
         val request = Request.Builder().url(url).build()
@@ -50,8 +50,14 @@ class SecondActivity : AppCompatActivity() {
         }) */
 
         retrofitVM = ViewModelProvider(this).get(RetrofitViewModel::class.java)
-        retrofitVM.callRetrofit()
-        observerRetrofitLivedata()
+
+        //그냥 레트로핏 호출
+        //retrofitVM.callRetrofit()
+        //observerRetrofitLivedata()
+
+        //******코루틴 레트로핏 호출
+        retrofitVM.refresh()
+        observeViewModel()
 
         binding = DataBindingUtil.setContentView(this, R.layout.second_activity)
         binding.viewModel = viewModel
@@ -89,6 +95,29 @@ class SecondActivity : AppCompatActivity() {
                 }
             }
 
+        })
+    }
+
+    //코루틴 사용 레트로핏 옵저버
+    fun observeViewModel() {
+        retrofitVM.hanadatas.observe(this, Observer {hanadatas ->
+            hanadatas?.let {
+                val responseBodyList = hanadatas.data?.cmsWidget?.data
+                if (responseBodyList != null) { //받아온 content 값을 recyclerview에 띄운다
+                    for (i in responseBodyList)
+                        viewModel.addTodo(i.content)
+                 }
+            }
+        })
+
+        retrofitVM.dataLoadError.observe(this, Observer { isError ->
+            Log.d("YMC", "onResponse 실패");
+        })
+
+        retrofitVM.loading.observe(this, Observer { isLoading ->
+            isLoading?.let {
+                Log.d("YMC", "onResponse 로딩");
+            }
         })
     }
 }

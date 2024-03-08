@@ -7,6 +7,7 @@ import androidx.databinding.DataBindingUtil
 import com.example.dahee_prac.R
 import com.example.dahee_prac.databinding.MainActivityBinding
 import com.example.dahee_prac.model.MainData
+import com.example.dahee_prac.model.item
 
 
 class MainActivity : Activity() {
@@ -25,7 +26,9 @@ class MainActivity : Activity() {
             R.layout.main_activity
         )
 
-        val setdata = MainData("제목", R.drawable.ic_launcher_background)
+        var item1 = item("제목1", R.drawable.ic_launcher_background)
+        var item2 = item("제목2", R.mipmap.ic_launcher)
+        val setdata = MainData(item1, item2)
         binding.maindata=setdata
 
         val intent = Intent(this, SecondActivity::class.java)
